@@ -1,0 +1,163 @@
+version: 2
+sources:
+  - name: merchant_data
+    database: merchant_data
+    schema: public
+    description: Production database, contains all the transactions and merchants tables and the variables related to them.
+    tables:
+      - name: account_statuses
+        columns:
+          - name: id
+          - name: status
+          - name: description
+          - name: src_created_at
+          - name: src_updated_at
+          - name: created_at
+          - name: updated_at
+    
+      - name: card_reader_types
+        columns:
+          - name: id
+          - name: name
+          - name: model
+          - name: pin_entry_capability
+          - name: pin_block_format_code
+          - name: encryption
+          - name: color
+          - name: description
+          - name: is_emv_capable
+          - name: src_created_at
+          - name: src_updated_at
+          - name: model_type
+          - name: created_at
+          - name: updated_at
+
+      - name: legal_types
+        columns:
+          - name: id
+          - name: description
+          - name: short_description
+          - name: country_id
+          - name: src_created_at
+          - name: src_updated_at
+          - name: active
+          - name: signup_screen
+          - name: created_at
+          - name: updated_at
+
+      - name: merchants
+        columns:
+          - name: id
+          - name: src_created_at
+          - name: src_updated_at
+          - name: primary_user_id
+          - name: merchant_category_id
+          - name: signup_channel
+          - name: sign_up_time
+          - name: is_test_account
+          - name: merchant_type
+          - name: payout_zone_id
+          - name: payout_detail_id
+          - name: created_at
+          - name: updated_at
+
+      - name: merchant_account_statuses
+        columns:
+          - name: id
+          - name: merchant_id
+          - name: state
+          - name: src_created_at
+          - name: src_updated_at
+          - name: created_at
+          - name: updated_at
+
+      - name: merchant_categories
+        columns:
+          - name: id
+          - name: code
+          - name: description
+          - name: src_created_at
+          - name: src_updated_at
+          - name: section_id
+          - name: vat_inclusive
+          - name: enabled
+          - name: created_at
+          - name: updated_at
+
+      - name: payment_types
+        columns:
+          - name: id
+          - name: code
+          - name: description
+          - name: is_active
+          - name: src_created_at
+          - name: src_updated_at
+          - name: created_at
+          - name: updated_at
+
+      - name: transactions
+        columns:
+          - name: id
+          - name: merchant_id
+          - name: user_id
+          - name: server_time_created_at
+          - name: client_time_created_at
+          - name: amount
+          - name: vat_amount
+          - name: tip_amount
+          - name: payment_type
+          - name: currency
+          - name: tx_result
+          - name: src_created_at
+          - name: src_updated_at
+          - name: elv_card_account_id
+          - name: tags
+          - name: acquirer_code
+          - name: server_transaction_end_time
+          - name: current_status_id
+          - name: device_id
+          - name: entry_mode_id
+          - name: cardholder_verification_method_id
+          - name: card_id
+          - name: card_reader_id
+          - name: tax_enabled
+          - name: card_application_id
+          - name: created_at
+          - name: updated_at
+    
+      - name: transaction_states
+        columns:
+          - name: id
+          - name: transaction_id
+          - name: insert_time
+          - name: settlement_run_id
+          - name: src_created_at
+          - name: src_updated_at
+          - name: comment
+          - name: payout_event_id
+          - name: transaction_status
+          - name: transaction_status_id
+          - name: created_at
+          - name: updated_at
+      - name: transaction_statuses
+        columns:
+          - name: id
+          - name: name
+          - name: created_at
+          - name: updated_at
+
+      - name: curated_merchant_data
+        columns:
+          - name: merchant_id
+          - name: sign_up_time
+          - name: first_successful_transaction_date
+          - name: first_card_present_date
+          - name: fifth_successful_transaction_date
+          - name: last_successful_transaction_date
+          - name: all_time_successful_transactions
+          - name: all_time_failed_transactions
+          - name: tpv_7_day
+          - name: tpv_30_day
+          - name: tpv_90_day
+          - name: tpv_180_day
+          - name: tpv_365_day
