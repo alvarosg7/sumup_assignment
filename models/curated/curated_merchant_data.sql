@@ -45,7 +45,7 @@ successful_card_present_transactions AS (
     JOIN {{ ref('payment_types') }} pt
         ON t.payment_type_code = pt.code  -- Joining ON the payment type code
     WHERE t.tx_result = 11  -- Successful transaction (tx_result = 11)
-      AND NOT pt.code IN (8,9,12,14)  -- Card-not-present transaction codes
+      AND NOT pt.code IN (1,8,9,12,14)  -- Card-not-present transaction codes and 1 for cash payment
 ),
 
 first_card_present_transaction AS (
