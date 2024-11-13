@@ -119,9 +119,6 @@ transactions_in_period AS (
     SELECT
         m.merchant_id,
         t.amount,
-        t.vat_amount,
-        t.tip_amount,
-        t.currency,
         CASE
             WHEN t.server_time_created_at >= m.sign_up_time 
                  AND t.server_time_created_at < m.signup_plus_7_days THEN '7_day'
@@ -144,11 +141,11 @@ transactions_in_period AS (
 tpv_summary AS (
     SELECT
         merchant_id,
-        sum(CASE WHEN PERIOD = '7_day' THEN amount + vat_amount + tip_amount ELSE 0 END) AS tpv_7_day,
-        sum(CASE WHEN PERIOD IN ('7_day', '30_day') THEN amount + vat_amount + tip_amount ELSE 0 END) AS tpv_30_day,
-        sum(CASE WHEN PERIOD IN ('7_day', '30_day', '90_day') THEN amount + vat_amount + tip_amount ELSE 0 END) AS tpv_90_day,
-        sum(CASE WHEN PERIOD IN ('7_day', '30_day','90_day','180_day') THEN amount + vat_amount + tip_amount ELSE 0 END) AS tpv_180_day,
-        sum(CASE WHEN PERIOD IN ('7_day', '30_day','90_day','180_day','365_day') THEN amount + vat_amount + tip_amount ELSE 0 END) AS tpv_365_day
+        sum(CASE WHEN PERIOD = '7_day' THEN amount ELSE 0 END) AS tpv_7_day,
+        sum(CASE WHEN PERIOD IN ('7_day', '30_day') THEN amount ELSE 0 END) AS tpv_30_day,
+        sum(CASE WHEN PERIOD IN ('7_day', '30_day', '90_day') THEN amount ELSE 0 END) AS tpv_90_day,
+        sum(CASE WHEN PERIOD IN ('7_day', '30_day','90_day','180_day') THEN amount ELSE 0 END) AS tpv_180_day,
+        sum(CASE WHEN PERIOD IN ('7_day', '30_day','90_day','180_day','365_day') THEN amount ELSE 0 END) AS tpv_365_day
     FROM transactions_in_period
     WHERE PERIOD IS NOT NULL
     GROUP BY merchant_id
@@ -180,4 +177,4 @@ LEFT JOIN all_time_successful_transactions atst ON ms.merchant_id = atst.merchan
 LEFT JOIN all_time_failed_transactions atft ON ms.merchant_id = atft.merchant_id
 LEFT JOIN tpv_summary tpv ON ms.merchant_id = tpv.merchant_id
 
-ORDER BY sign_up_time
+ORDER BY fifth.fifth_successful_transaction_date NULLS LAST   
